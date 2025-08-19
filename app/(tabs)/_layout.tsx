@@ -1,45 +1,101 @@
+import Ionicons from '@expo/vector-icons/build/Ionicons';
 import { Tabs } from 'expo-router';
+import { linkTo } from 'expo-router/build/global-state/routing';
 import React from 'react';
-import { Platform } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { FAB } from 'react-native-paper';
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+const _layout = () => {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
+    <View style={styles.container}>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: '#e91e63',
+          tabBarInactiveTintColor: '#000',
+          tabBarStyle: {
+            backgroundColor: '#fff',
+            borderTopWidth: 2,
+            borderTopColor: '#e91e63',
+            height: 70,
           },
-          default: {},
-        }),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarLabelStyle: {
+            fontSize: 14,
+            fontWeight: 'bold',
+            paddingBottom: 5,
+            paddingTop: 5,
+            textTransform: 'uppercase',
+            letterSpacing: 1,
+            color: '#000',
+            textAlign: 'center',
+          },
+        }}
+      >
+        <Tabs.Screen
+          name='index'
+          options={{
+            title: "Home",
+            headerShown: false,
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="home" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name='settings'
+          options={{
+            title: "Settings",
+            headerShown: false,
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="settings" size={size} color={color} />
+            ),
+          }}
+        />
+      </Tabs>
+
+      {/* Floating Action Button */}
+      <FAB
+        style={styles.fab}
+        icon="plus"
+        color="#e91e63"
+        onPress={() => {
+          linkTo('../pages/todo');
         }}
       />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
+    </View>
   );
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    
+  },
+  fab: {
+    position: 'absolute',
+    right: '50%',
+    bottom: 20,
+    margin: 16,
+    width: 60,
+    height: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    zIndex: 1000,
+    borderTopWidth: 1,
+    borderTopColor: '#e91e63',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e91e63',
+    backgroundColor: '#fff',
+    borderRightWidth: 4,
+    borderRightColor: '#e91e63',
+    transform: [{ translateX: 50 }],
+    borderRadius: 50,
+  },
+});
+
+export default _layout;
