@@ -1,21 +1,27 @@
+// Update the import path to the correct relative location
 import Ionicons from '@expo/vector-icons/build/Ionicons';
 import { Tabs } from 'expo-router';
 import { linkTo } from 'expo-router/build/global-state/routing';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { FAB } from 'react-native-paper';
+import useTheme from '../hooks/useTheme';
 
-const _layout = () => {
+
+const TabsLayout = () => {
+
+  const {colors} = useTheme();
+
   return (
     <View style={styles.container}>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: '#e91e63',
-          tabBarInactiveTintColor: '#000',
+          tabBarActiveTintColor: colors.primary,
+          tabBarInactiveTintColor: colors.textMuted,
           tabBarStyle: {
-            backgroundColor: '#fff',
+            backgroundColor: colors.bg,
             borderTopWidth: 2,
-            borderTopColor: '#e91e63',
+            borderTopColor: colors.primary,
             height: 70,
           },
           tabBarLabelStyle: {
@@ -25,7 +31,7 @@ const _layout = () => {
             paddingTop: 5,
             textTransform: 'uppercase',
             letterSpacing: 1,
-            color: '#000',
+            color: colors.text,
             textAlign: 'center',
           },
         }}
@@ -56,7 +62,7 @@ const _layout = () => {
       <FAB
         style={styles.fab}
         icon="plus"
-        color="#e91e63"
+        color={colors.primary}
         onPress={() => {
           linkTo('../pages/todo');
         }}
@@ -98,4 +104,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default _layout;
+export default TabsLayout;
